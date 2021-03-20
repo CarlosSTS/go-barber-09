@@ -13,24 +13,24 @@ class UserController {
     });
 
     try {
-      await schema.validate(req.body);
+      await schema.validate(request.body);
     } catch (err) {
-      return res.status(422).json({ error: `Validation fails: ${err.message}` });
+      return response.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
     const userExists = await User.findOne({ where: { email: request.body.email } });
 
     if (userExists) {
-      return response.status(400).json({ error: "User already exists." })
+      return response.status(400).json({ error: 'User already exists.' });
     }
 
-    const { id, name, email, provider } = await User.create(request.body)
+    const { id, name, email, provider } = await User.create(request.body);
 
     return response.json({
       id,
       name,
       email,
-      provider
+      provider,
     });
   }
 
@@ -48,7 +48,7 @@ class UserController {
     try {
       await schema.validate(request.body);
     } catch (err) {
-      return response.status(422).json({ error: `Validation fails: ${err.message}` });
+      return response.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
     const { email, oldPassword } = request.body;
@@ -66,7 +66,7 @@ class UserController {
       return response.status(401).json({ error: 'Password does not match.' });
     }
 
-    const { id, name, provider } = await user.update(request.body)
+    const { id, name, provider } = await user.update(request.body);
 
     return response.json({
       id, name, email, provider,
